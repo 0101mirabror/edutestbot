@@ -13,6 +13,7 @@ bot = Bot(token=TOKEN_API)
 storage = MemoryStorage()
 dp = Dispatcher(bot=bot, storage=storage)
 scheduler = AsyncIOScheduler()
+
 async def on_startup(_):
     await db_start()
     schedule_jobs()
@@ -58,10 +59,6 @@ async def cmd_start(message: types.Message) -> None:
 
 def schedule_jobs():
     scheduler.add_job(paginate_test_questions, "interval", minutes=1, args=(dp,))
-
-
-# def on_startup(dp):
-    
 
 """USER PROFILE CREATE"""
 # create handler, begins user creation process
@@ -155,6 +152,7 @@ async def check_authenticated_user(message: types.Message, state: FSMContext) ->
                               ]
                          ]), 
                          parse_mode="HTML")
+
 # special test(pro_1)   
 @dp.callback_query_handler(lambda callback: callback.data.startswith("check_"))
 async def special_tests_section(callback: types.CallbackQuery , state: FSMContext) -> None:
@@ -175,6 +173,7 @@ async def special_tests_section(callback: types.CallbackQuery , state: FSMContex
 
                                   ]))
 import asyncio
+
 @dp.callback_query_handler(lambda callback: callback.data.startswith('check1_'))
 async def start_test(callback: types.CallbackQuery, state: FSMContext) -> None:
     eachtest_id = int(callback.data[callback.data.find("_")+1:])
